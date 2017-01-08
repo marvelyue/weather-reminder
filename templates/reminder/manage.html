@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block head_title %}Manage Remiders{% endblock %}
+{% block base_content %}
+<div>
+ <h2>My Reminders</h2>
+ <table class="table">
+   <thead>
+     <tr>
+       <th>Zip</th>
+       <th>Reminder</th>
+       <th></th>
+     </tr>
+   </thead>
+   <tbody>
+   {% for reminder in reminders %}
+     <tr>
+       <td>{{ reminder.zipcode }}</td>
+       <td>{% for index, label in reminder.WARNING_CHOICE %}{% if reminder.warning_event == index %}{{ label }}{% endif %}{% endfor %}</td>
+       <td><a href="/del_reminder?id={{ reminder.id }}">x</a></td>
+     </tr>
+   {% endfor %}
+   </tbody>
+ </table>
+    <h2>Add Reminders</h2>
+   <form method='post'>
+       {% csrf_token %}
+       {{ form.as_p }}
+       <input type="submit" value="Add">
+   </form>
+</div>
+{% endblock %}
