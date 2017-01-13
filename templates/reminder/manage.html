@@ -1,33 +1,52 @@
 {% extends 'base.html' %}
 {% block head_title %}Manage Remiders{% endblock %}
 {% block base_content %}
-<div>
- <h2>My Reminders</h2>
- <table class="table">
+<h3 class="main-title pull-left">My Reminders</h3>
+<div class="alert alert-info col-sm-12 col-md-12">
+   <p>The reminders will be sent at 10:00 pm PST every night.</p>
+</div>
+<table class="table table-hover">
    <thead>
-     <tr>
-       <th>Zip</th>
+   <tr>
+       <th>Zipcode</th>
        <th>Reminder</th>
        <th></th>
-     </tr>
+   </tr>
    </thead>
    <tbody>
    {% for reminder in reminders %}
-     <tr>
-       <td>{{ reminder.zipcode }}</td>
-       <td>{% for index, label in reminder.WARNING_CHOICE %}{% if reminder.warning_event == index %}{{ label }}{% endif %}{% endfor %}</td>
-       <td><a href="/del_reminder?id={{ reminder.id }}">x</a></td>
-     </tr>
+   <tr>
+       <td class="col-sm-2">{{ reminder.zipcode }}</td>
+       <td class="col-sm-9">
+           {% for index, label in reminder.WARNING_CHOICE %}
+           {% if reminder.warning_event == index %}
+           {{ label }}
+           {% endif %}
+           {% endfor %}
+       </td>
+       <td class="col-sm-1"><a href="/del_reminder?id={{ reminder.id }}">
+           <span class="glyphicon glyphicon-remove text-danger"></span>
+       </a></td>
+   </tr>
    {% endfor %}
+   <tr>
+       <form method='post'>
+           {% csrf_token %}
+           <td class="col-sm-2">{{ form.zipcode }}</td>
+           <td class="col-sm-9">{{ form.reminder }}</td>
+           <td class="col-sm-1">
+               <button class="btn btn-link" style="padding-left: 0px">
+                   <span class="glyphicon glyphicon-plus text-primary"></span>
+               </button>
+           </td>
+       </form>
+   </tr>
    </tbody>
- </table>
-    <h2>Add Reminders</h2>
-   <form method='post'>
-       {% csrf_token %}
-       {{ form.as_p }}
-       <input type="submit" value="Add">
-   </form>
-    <h2>Send Email</h2>
-    <a href="test_email">Email me tomorrow's weather now</a>
+</table>
+<div class="panel panel-default">
+<p class="panel-heading">Want to know tomorrow's weather now?</p>
+   <div class="panel-body">
+       <a href="test_email" class="btn btn-success">Send Email</a>
+   </div>
 </div>
 {% endblock %}
