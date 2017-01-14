@@ -29,6 +29,14 @@
                <li><a href="#about">About</a></li>
                <li><a href="#contact">Contact</a></li>
            </ul>
+           {% if logged_in %}{% load account %}
+           <ul class="navbar-form navbar-right">
+               <li><a class="btn btn-danger" href="/accounts/logout/">Sign Out</a></li>
+           </ul>
+           <ul class="nav navbar-nav navbar-right">
+               <li><a>Welcome, {% user_display user %}</a></li>
+           </ul>
+           {% endif %}
        </div><!--/.navbar-collapse -->
    </div>
 </nav>

@@ -1,0 +1,72 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+<div id="loginbox" style="margin-top:40px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+   <div class="panel panel-default">
+       <div class="panel-heading">
+           <div class="panel-title">{% trans "Sign In" %}</div>
+           <div style="float:right; font-size: 80%; position: relative; top:-10px"><a
+                   href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+           </div>
+       </div>
+       <div class="panel-body">
+           {% if form.errors %}
+           {% for field in form %}
+           {% for error in field.errors %}
+           <div class="alert alert-danger col-sm-12">
+               <strong>{{ error|escape }}</strong>
+           </div>
+           {% endfor %}
+           {% endfor %}
+           {% for error in form.non_field_errors %}
+           <div class="alert alert-danger col-sm-12">
+               <strong>{{ error|escape }}</strong>
+           </div>
+           {% endfor %}
+           {% endif %}
+           <form id="loginform" class="form-horizontal" role="form" method="POST" action="{% url 'account_login' %}">
+               {% csrf_token %}
+               <div style="margin-bottom: 20px" class="input-group">
+                   <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                   <input id="{{ form.login.id_for_label }}" type="text" class="form-control"
+                          name="{{ form.login.html_name }}" value=""
+                          placeholder="Username or Email">
+               </div>
+               <div style="margin-bottom: 10px" class="input-group">
+                   <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                   <input id="{{ form.password.id_for_label }}" type="password" class="form-control"
+                          name="{{ form.password.html_name }}"
+                          placeholder="Password">
+               </div>
+               <div style="margin-bottom: 20px" class="input-group">
+                   <div class="checkbox">
+                       <label>
+                           <input id="{{ form.remember.id_for_label }}" type="checkbox"
+                                  name="{{ form.remember.html_name }}" value="1">{{ form.remember.label }}
+                       </label>
+                   </div>
+               </div>
+               <div class="form-group">
+                   <!-- Button -->
+                   <div class="col-sm-12 controls">
+                       <button type="submit" class="btn btn-primary">{% trans "Sign In" %}</button>
+                   </div>
+               </div>
+               <div class="form-group">
+                   <div class="col-md-12 control">
+                       <div style="border-top: 1px solid#aaa; padding-top:15px; font-size:85%">
+                           Don't have an account?
+                           <a href="{{ signup_url }}">Sign Up Here</a>
+                       </div>
+                   </div>
+               </div>
+           </form>
+       </div>
+   </div>
+</div>
+{% endblock %}

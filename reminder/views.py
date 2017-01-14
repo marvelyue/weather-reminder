@@ -13,7 +13,7 @@ def manage(request):
    if request.user.is_authenticated():
        user_id = request.user.id
    else:
-       return HttpResponseRedirect("/admin/login/")
+       return HttpResponseRedirect("/accounts/login/")
    if request.method == 'POST':
        post_form = AddReminderForm(request.POST)
        if post_form.is_valid():
@@ -27,7 +27,7 @@ def manage(request):
 
 def del_reminder(request):
    if not request.user.is_authenticated():
-       return HttpResponseRedirect("/admin/login/")
+       return HttpResponseRedirect("/accounts/login/")
    try:
        reminder_id = int(request.GET.get('id', ''))
        p = Reminder.objects.get(id=int(reminder_id))
@@ -63,7 +63,7 @@ def test_email(request):
    if request.user.is_authenticated():
        user_id = request.user.id
    else:
-       return HttpResponseRedirect("/admin/login/")
+       return HttpResponseRedirect("/accounts/login/")
    reminders = Reminder.objects.filter(user_id=user_id)
    # De-duplicate zipcode.
    zipcodes = set()

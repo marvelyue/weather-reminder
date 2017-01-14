@@ -1,0 +1,75 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block content %}
+<div id="signupbox" style="margin-top:20px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+   <div class="panel panel-default">
+       <div class="panel-heading">
+           <div class="panel-title">{% trans "Sign Up" %}</div>
+           <div style="float:right; font-size: 85%; position: relative; top:-10px">
+               <a href="{{ login_url }}">sign in</a>
+           </div>
+       </div>
+       <div class="panel-body">
+           <form class="form-horizontal" id="signup_form" role="form" method="post"
+                 action="{% url 'account_signup' %}">
+               {% csrf_token %}
+               {% if form.errors %}
+               {% for field in form %}
+               {% for error in field.errors %}
+               <div class="alert alert-danger col-sm-12">
+                   <strong>{{ error|escape }}</strong>
+               </div>
+               {% endfor %}
+               {% endfor %}
+               {% for error in form.non_field_errors %}
+               <div class="alert alert-danger col-sm-12">
+                   <strong>{{ error|escape }}</strong>
+               </div>
+               {% endfor %}
+               {% endif %}
+               <div class="form-group">
+                   <label for="{{ form.username.id_for_label }}" class="col-md-3 control-label">{{ form.username.label }}</label>
+                   <div class="col-md-9">
+                       <input type="text" class="form-control" id="{{ form.username.id_for_label }}"
+                              name="{{ form.username.html_name }}" placeholder="Username">
+                   </div>
+               </div>
+               <div class="form-group">
+                   <label for="{{ form.email.id_for_label }}" class="col-md-3 control-label">{{ form.email.label }}</label>
+                   <div class="col-md-9">
+                       <input type="text" class="form-control" id="{{ form.email.id_for_label }}"
+                              name="{{ form.email.html_name }}" placeholder="{{ form.email.label }}">
+                   </div>
+               </div>
+               <div class="form-group">
+                   <label for="{{ form.password1.id_for_label }}" class="col-md-3 control-label">{{ form.password1.label }}</label>
+                   <div class="col-md-9">
+                       <input type="password" class="form-control" id="{{ form.password1.id_for_label }}"
+                              name="{{ form.password1.html_name }}" placeholder="{{ form.password1.label }}">
+                   </div>
+               </div>
+               <div class="form-group">
+                   <label for="{{ form.password2.id_for_label }}" class="col-md-3 control-label">{{ form.password2.label }}</label>
+                   <div class="col-md-9">
+                       <input type="password" class="form-control" id="{{ form.password2.id_for_label }}"
+                              name="{{ form.password2.html_name }}" placeholder="{{ form.password2.label }}">
+                   </div>
+               </div>
+
+               <div class="form-group">
+                   <!-- Button -->
+                   <div class="col-md-offset-3 col-md-9">
+                       <button id="btn-signup" type="submit" class="btn btn-primary"><i class="icon-hand-right"></i>
+                           Sign Up &raquo;
+                       </button>
+                   </div>
+               </div>
+           </form>
+       </div>
+   </div>
+</div>
+{% endblock %}
